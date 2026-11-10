@@ -45,5 +45,25 @@ int main(void)
     
     printf("\nTotal products: %d\n", count);
     
+    /* Save products */
+    if (saveProducts(products, count, "data/products.txt"))
+    {
+        printf("\nProducts saved successfully!\n");
+    }
+    else
+    {
+        printf("\nError saving products!\n");
+    }
+    
+    /* Load products again */
+    count = 0;
+    
+    if (loadProducts(products, &count, "data/products.txt"))
+    {
+        printf("\nProducts loaded successfully!\n");
+    }
+    
+    displayProducts(products, count);
+    
     return 0;
 }

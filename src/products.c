@@ -192,3 +192,87 @@ int reduceStock(Product products[], int count, int id, int quantity)
     
     return 1;
 }
+
+
+int saveProducts(const Product products[], int count, const char *filename)
+{
+    FILE *file;
+    int i;
+    
+    file = fopen(filename, "w");
+    
+    if (file == NULL)
+    {
+        return 0;
+    }
+    
+    for (i = 0; i < count; i++)
+    {
+        fprintf(file, "%d|%s|%lld|%d\n",
+                products[i].id,
+                products[i].name,
+                products[i].price,
+                products[i].quantity);
+    }
+    
+    if (fclose(file) != 0)
+    {
+        return 0;
+    }
+    
+    return 1;
+}
+
+
+int loadProducts(Product products[], int *count, const char *filename)
+{
+    FILE *file;
+    char line[150];
+    Product temp;
+    int loaded = 0;
+    
+    *count = 0;
+    
+    file = fopen(filename, "r");
+    
+    if (file == NULL)
+    {
+        return 0;
+    }
+    
+    while (fgets(line, sizeof(line), file) != NULL)
+    {
+        if (sscanf(line, "%d|%39[^|]|%lld|%d",
+            &temp.id,
+            temp.name,
+            &temp.price,
+            &temp.quantity) != 4)
+        {
+            continue;
+        }
+        
+        if (*count >= MAX_PRODUCTS)
+        {
+            break;
+        }
+        
+        if (temp.id <= 0 || temp.name[0] == '\0' ||
+            temp.price < 0 || temp.quantity < 0)
+        {
+            continue;
+        }
+        
+        if (findProductById(products, *count, temp.id) != -1)
+        {
+            continue;
+        }
+        
+        products[*count] = temp;
+        (*count)++;
+        loaded++;
+    }
+    
+    fclose(file);
+    
+    return 1;
+}
