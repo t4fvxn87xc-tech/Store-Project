@@ -5,6 +5,7 @@
 #include "products.h"
 
 #define MAX_CART_ITEMS 100
+#define MAX_SALES 5000
 #define DATE_LENGTH 11
 
 typedef struct {
@@ -43,7 +44,8 @@ long long calculateCartTotal(const Cart *cart);
 /* Sales management */
 int processSale(Cart *cart, Product products[], int productCount,
                 int saleId, int userId, const char date[],
-                const char *productsFile, const char *salesFile);
+                const char *productsFile, const char *salesFile,
+                const char *receiptFile);
 
 int loadSales(Sale sales[], int *count, const char *filename);
 
