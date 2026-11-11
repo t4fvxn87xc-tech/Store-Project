@@ -9,7 +9,7 @@ int main()
         {102, "Mouse", 5000, 20},
         {103, "Keyboard", 12000, 15},
         {104, "Monitor", 85000, 8}
-    };
+    }
     
     int productCount = 4;
     Cart cart;
